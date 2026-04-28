@@ -10,7 +10,8 @@ public class GameState : MonoBehaviour
     {
         if (other.gameObject.CompareTag(ENEMY_TAG))
         {
-            hitCount++;    
+            hitCount++;  
+            Destroy(other.gameObject);
         }
         
         if (hitCount >= 5)
