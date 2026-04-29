@@ -14,11 +14,27 @@ public class PlayerController : MonoBehaviour
     private InputAction moveAction;
 
     private InputAction shootAction;
+    
+    [Header("Charge System")]
+    private float chargeTime = 0f; 
+    public float chargeDuration = 1.5f;
+    
+    [Header("Ammo System")]
+    public int maxAmmo = 30; 
+    private int currentAmmo; 
+    public int normalCost = 1; 
+    public int chargeCost = 3; 
 
     private void Awake()
     {
         moveAction = InputSystem.actions.FindAction("Move");
         shootAction = InputSystem.actions.FindAction("Shoot");
+    }
+    
+    private void Start()
+    {
+        currentAmmo = maxAmmo;
+        UIManager.Instance.UpdateAmmo(currentAmmo, maxAmmo);
     }
 
     // Update is called once per frame
@@ -35,9 +51,47 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = new Vector3(xRange, transform.position.y, transform.position.z);
         }
-        if (shootAction.triggered)
+        
+        if (Keyboard.current.rKey.wasPressedThisFrame)
         {
-            Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
+            Debug.Log("Reloading...");
+            
+            currentAmmo = maxAmmo;
+            UIManager.Instance.UpdateAmmo(currentAmmo, maxAmmo);
+        }
+        
+        if (shootAction.IsPressed())
+        {
+            chargeTime += Time.deltaTime;
+        }
+
+        if (shootAction.WasReleasedThisFrame())
+        {
+            bool isCharged = chargeTime >= chargeDuration;
+            int cost = isCharged ? chargeCost : normalCost;
+            
+            if (currentAmmo >= cost)
+            {
+                currentAmmo -= cost;
+                UIManager.Instance.UpdateAmmo(currentAmmo, maxAmmo);
+                
+                GameObject projectile = Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
+                if (projectile.TryGetComponent<Food>(out Food foodScript))
+                {
+                    if (isCharged)
+                    {
+                        foodScript.isPiercing = true;
+                        foodScript.attackPoint *= 3;
+                        projectile.transform.localScale *= 1.5f;
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("กระสุนไม่พอ! กด R เพื่อรีโหลด");
+            }
+            
+            chargeTime = 0f;
         }
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 public class Food : MonoBehaviour
 {
     public int attackPoint = 5;
+    public bool isPiercing = false;
 
     void OnTriggerEnter(Collider other)
     {
@@ -35,7 +36,15 @@ public class Food : MonoBehaviour
                 health.TakeDamage(attackPoint * 2); 
                 Debug.Log("Critical hit");
             }
+            
+            if (!isPiercing)
+            {
+                Destroy(gameObject);
+            }
         }
-        Destroy(gameObject);
+        else 
+        {
+            
+        }
     }
 }
