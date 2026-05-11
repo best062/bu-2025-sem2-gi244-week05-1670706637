@@ -27,24 +27,30 @@ public class Food : MonoBehaviour
         if (other.gameObject.TryGetComponent<HealthV1>(out HealthV1 health))
         {
             var luck = Random.Range(0, 100);
-            if (luck < 50)
+            int finalDamage = attackPoint; 
+
+            if (luck < 60) // โอกาส 60%
             {
-                health.TakeDamage(attackPoint);    
+                finalDamage = attackPoint; 
+                Debug.Log("Normal Hit");
             }
-            else
+            else if (luck < 90) 
             {
-                health.TakeDamage(attackPoint * 2); 
-                Debug.Log("Critical hit");
+                finalDamage = attackPoint * 2;
+                Debug.Log("Double Damage!");
             }
+            else 
+            {
+                finalDamage = attackPoint * 3;
+                Debug.Log("TRIPLE DAMAGE!!!");
+            }
+            
+            health.TakeDamage(finalDamage);
             
             if (!isPiercing)
             {
                 Destroy(gameObject);
             }
-        }
-        else 
-        {
-            
         }
     }
 }
