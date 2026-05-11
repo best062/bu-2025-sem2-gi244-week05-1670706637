@@ -59,8 +59,7 @@ public class MainMenuManager : MonoBehaviour
         
         if (volumeText != null)
         {
-            float volumePercent = value * 100f;
-            volumeText.text = Mathf.RoundToInt(volumePercent).ToString(); 
+            volumeText.text = Mathf.RoundToInt(value * 100) + "%";
         }
         
         PlayerPrefs.SetFloat("GameVolume", value);

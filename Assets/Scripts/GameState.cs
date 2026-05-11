@@ -1,18 +1,21 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Android;
 
 public class GameState : MonoBehaviour
 {
+    [Header("Base Settings")]
     public int hitCount = 0;
     public int maxHits = 5;
     public const string ENEMY_TAG = "Enemy";
     
+    [Header("UI Panels")]
+    public GameObject gameOverPanel; 
+    
     void Start()
     {
-        if (UIManager.Instance != null)
+        UpdateHealthUI();
+        if (gameOverPanel != null)
         {
-            UIManager.Instance.UpdateBaseHealth(maxHits - hitCount, maxHits);
+            gameOverPanel.SetActive(false);
         }
     }
     
@@ -20,20 +23,42 @@ public class GameState : MonoBehaviour
     {
         if (other.gameObject.CompareTag(ENEMY_TAG))
         {
-            hitCount++;  
             Destroy(other.gameObject);
-            
-            if (UIManager.Instance != null)
-            {
-                int currentHealth = maxHits - hitCount;
-                UIManager.Instance.UpdateBaseHealth(currentHealth, maxHits);
-            }
+            TakeDamage(1); 
         }
+    }
+    
+    public void TakeDamage(int damage)
+    {
+        hitCount += damage; 
+        UpdateHealthUI();   
         
         if (hitCount >= maxHits)
         {
-            Debug.Log("Game Over");
-            Time.timeScale = 0f;
+            TriggerGameOver();
         }
+    }
+    
+    private void UpdateHealthUI()
+    {
+        if (UIManager.Instance != null)
+        {
+            int currentHealth = maxHits - hitCount;
+            if (currentHealth < 0) currentHealth = 0; 
+            
+            UIManager.Instance.UpdateBaseHealth(currentHealth, maxHits);
+        }
+    }
+    
+    public void TriggerGameOver()
+    {
+        Debug.Log("บ้านแตก! โชว์หน้า Game Over");
+        
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true); 
+        }
+        
+        Time.timeScale = 0f; 
     }
 }

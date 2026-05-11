@@ -3,16 +3,27 @@ using UnityEngine.UI;
 
 public class BossHealth : MonoBehaviour
 {
-    public float maxHealth = 5000f; // เลือดบอสมหาศาล
+    [Header("Health Settings")]
+    public float maxHealth = 5000f; 
     private float currentHealth;
     private Slider healthSlider;
+
+    [Header("Movement & Game Over")]
+    public float bottomBound = -10f; 
 
     private void Start()
     {
         currentHealth = maxHealth;
     }
 
-    // รับหลอดเลือดมาจาก BossManager
+    private void Update()
+    {
+        if (transform.position.z < bottomBound)
+        {
+            BossReachedBase();
+        }
+    }
+
     public void SetHealthUI(Slider uiSlider)
     {
         healthSlider = uiSlider;
@@ -33,9 +44,21 @@ public class BossHealth : MonoBehaviour
 
     private void Die()
     {
-        // บอสตาย = จบเกมด่านบอสชนะ
         if (healthSlider != null) healthSlider.gameObject.SetActive(false);
-        FindObjectOfType<LevelEndManager>().WinLevel(); // สั่งจบด่าน
+        FindObjectOfType<LevelEndManager>().WinLevel(); 
+        Destroy(gameObject);
+    }
+
+    private void BossReachedBase()
+    {
+        Debug.Log("บอสบุกเข้าบ้านได้! บ้านแตก!");
+        GameState gameState = FindObjectOfType<GameState>();
+        if (gameState != null)
+        {
+            gameState.hitCount = 999; 
+        }
+        
+        if (healthSlider != null) healthSlider.gameObject.SetActive(false);
         Destroy(gameObject);
     }
 }
