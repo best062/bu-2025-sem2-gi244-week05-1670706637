@@ -24,33 +24,37 @@ public class Food : MonoBehaviour
             Destroy(gameObject);
         }*/
 
-        if (other.gameObject.TryGetComponent<HealthV1>(out HealthV1 health))
-        {
-            var luck = Random.Range(0, 100);
-            int finalDamage = attackPoint; 
+        // สุ่มระบบคริติคอลคำนวณดาเมจ
+        var luck = Random.Range(0, 100);
+        int finalDamage = attackPoint; 
 
-            if (luck < 60) // โอกาส 60%
-            {
-                finalDamage = attackPoint; 
-                Debug.Log("Normal Hit");
-            }
-            else if (luck < 90) 
-            {
-                finalDamage = attackPoint * 2;
-                Debug.Log("Double Damage!");
-            }
-            else 
-            {
-                finalDamage = attackPoint * 3;
-                Debug.Log("TRIPLE DAMAGE!!!");
-            }
+        if (luck < 60) 
+        {
+            finalDamage = attackPoint; 
+        }
+        else if (luck < 90) 
+        {
+            finalDamage = attackPoint * 2;
+            Debug.Log("Double Damage!");
+        }
+        else 
+        {
+            finalDamage = attackPoint * 3;
+            Debug.Log("TRIPLE DAMAGE!!!");
+        }
+        
+        if (other.gameObject.TryGetComponent<HealthV1>(out HealthV1 normalHealth))
+        {
+            normalHealth.TakeDamage(finalDamage);
             
-            health.TakeDamage(finalDamage);
+            if (!isPiercing) Destroy(gameObject); 
+        }
+        
+        else if (other.gameObject.TryGetComponent<BossHealth>(out BossHealth bossHealth))
+        {
+            bossHealth.TakeDamage(finalDamage);
             
-            if (!isPiercing)
-            {
-                Destroy(gameObject);
-            }
+            if (!isPiercing) Destroy(gameObject); 
         }
     }
 }

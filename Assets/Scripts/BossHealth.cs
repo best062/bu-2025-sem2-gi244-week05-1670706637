@@ -55,9 +55,8 @@ public class BossHealth : MonoBehaviour
         GameState gameState = FindObjectOfType<GameState>();
         if (gameState != null)
         {
-            gameState.hitCount = 999; 
+            gameState.TriggerGameOver(); 
         }
-        
         if (healthSlider != null) healthSlider.gameObject.SetActive(false);
         Destroy(gameObject);
     }

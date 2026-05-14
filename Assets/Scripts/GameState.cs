@@ -19,16 +19,7 @@ public class GameState : MonoBehaviour
         }
     }
     
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag(ENEMY_TAG))
-        {
-            Destroy(other.gameObject);
-            TakeDamage(1); 
-        }
-    }
-    
-    public void TakeDamage(int damage)
+    /*public void TakeDamage(int damage)
     {
         hitCount += damage; 
         UpdateHealthUI();   
@@ -37,7 +28,7 @@ public class GameState : MonoBehaviour
         {
             TriggerGameOver();
         }
-    }
+    }*/
     
     private void UpdateHealthUI()
     {
@@ -52,13 +43,30 @@ public class GameState : MonoBehaviour
     
     public void TriggerGameOver()
     {
-        Debug.Log("บ้านแตก! โชว์หน้า Game Over");
-        
+        Debug.Log("Game Over Triggered!");
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true); 
         }
-        
         Time.timeScale = 0f; 
+    }
+    
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag(ENEMY_TAG))
+        {
+            hitCount++;  
+            Destroy(other.gameObject);
+            
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.UpdateBaseHealth(maxHits - hitCount, maxHits);
+            }
+
+            if (hitCount >= maxHits)
+            {
+                TriggerGameOver(); 
+            }
+        }
     }
 }

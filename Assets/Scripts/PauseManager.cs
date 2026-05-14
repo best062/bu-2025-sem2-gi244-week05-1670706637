@@ -54,6 +54,7 @@ public class PauseManager : MonoBehaviour
     public void PauseGame()
     {
         isPaused = true;
+        AudioListener.pause = true;
         Time.timeScale = 0f;
         if (pausePanel != null) pausePanel.SetActive(true);
     }
@@ -61,6 +62,7 @@ public class PauseManager : MonoBehaviour
     public void ResumeGame()
     {
         isPaused = false;
+        AudioListener.pause = false;
         Time.timeScale = 1f;
         if (pausePanel != null) pausePanel.SetActive(false);
         if (settingsPanel != null) settingsPanel.SetActive(false);
@@ -91,6 +93,7 @@ public class PauseManager : MonoBehaviour
     public void GoToMainMenu()
     {
         Time.timeScale = 1f;
+        AudioListener.pause = false;
         SceneManager.LoadScene("Scenes/Start Game"); 
     }
 }

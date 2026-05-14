@@ -630,10 +630,11 @@ GameObject:
   - component: {fileID: 3138290333589500621}
   - component: {fileID: 3080863721771516744}
   - component: {fileID: -6327209161461331221}
-  - component: {fileID: 2454098986289933634}
+  - component: {fileID: 2293319429383844266}
+  - component: {fileID: 3517076214739049250}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -648,8 +649,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.1659184, y: 0.00000082215433, z: 13.656619}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5751338954931727843}
   - {fileID: 5568310260693165987}
@@ -695,7 +696,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9718be85d3d75284a8621800dd73f8bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossHealth
-  maxHealth: 1250
+  maxHealth: 6000
+  bottomBound: -10
 --- !u!114 &-6327209161461331221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -708,19 +710,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af4f17ee9da6eb748945b825c002892b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoveForward
-  speed: 1.5
---- !u!114 &2454098986289933634
-MonoBehaviour:
+  speed: 1
+--- !u!54 &2293319429383844266
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5265987187963449490}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &3517076214739049250
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5265987187963449490}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62efef67b9f6c344db608f344025fb1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DestroyOutOfBound
+  serializedVersion: 3
+  m_Size: {x: 10.724373, y: 18.170824, z: 23.717623}
+  m_Center: {x: -0.16332388, y: 8.58541, z: -0.8739042}
 --- !u!1 &5372269973030298456
 GameObject:
   m_ObjectHideFlags: 0
