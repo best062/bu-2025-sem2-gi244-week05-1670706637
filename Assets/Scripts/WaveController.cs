@@ -40,7 +40,28 @@ public class WaveController : MonoBehaviour
 
     void Spawn()
     {
-        int enemyIndex = Random.Range(0, wave.enemiesPrefab.Length);
+        float randomInterval = Random.Range(0f, 100f);
+        int enemyIndex = 0;
+        if (wave.enemiesPrefab.Length >= 3)
+        {
+            if (randomInterval < 60f)
+            {
+                enemyIndex = 0;
+            }
+            else if (randomInterval < 95f)
+            {
+                enemyIndex = 1;
+            }
+            else
+            {
+                enemyIndex = 2;
+            }
+        }
+        else
+        {
+            enemyIndex = Random.Range(0, wave.enemiesPrefab.Length);
+        }
+        
         int pointIndex = Random.Range(0, spawnPoints.Length);
         
         var prefab = wave.enemiesPrefab[enemyIndex];
